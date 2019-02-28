@@ -5,7 +5,7 @@ var request = require('request');
 var qs = require('qs');
 var operations = require('./pinnacleOperations');
 
-var PinnacleAPI = function(username, password) {
+var PinnacleAPI = function(username, password, extraReqOptions) {
 	if(!username || !password){
 		throw new Error('No username and/or password provided in createClient().');
 	}
@@ -41,7 +41,8 @@ var PinnacleAPI = function(username, password) {
 			rejectUnauthorized: false,
 			headers: {
 				'Authorization': auth
-			}
+			},
+			...(extraReqOptions || {})
 		};
 		request.get(requestOptions, (function (err, response, body) {
 			if (err) return cb(err);
